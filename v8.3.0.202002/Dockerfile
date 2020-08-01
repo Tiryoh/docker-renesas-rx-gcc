@@ -1,4 +1,4 @@
-FROM tiryoh/ubuntu:bionic-dev
+FROM tiryoh/ubuntu:bionic-dev as builder
 USER root
 RUN apt-get update && apt-get install -y unzip gcc-8 g++-8 autogen m4 texinfo libmpfr-dev libmpc-dev zlib1g-dev && \
 	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7 && \
@@ -10,8 +10,7 @@ RUN apt-get update && apt-get install -y unzip gcc-8 g++-8 autogen m4 texinfo li
 USER ubuntu
 RUN mkdir -p /home/ubuntu/Downloads && \
 	mkdir -p /home/ubuntu/rxgcc/src && \
-	mkdir -p /home/ubuntu/rxgcc/build && \
-	mkdir -p /home/ubuntu/rxgcc/prefix
+	mkdir -p /home/ubuntu/rxgcc/build
 WORKDIR /home/ubuntu/Downloads
 RUN wget https://gcc-renesas.com/downloads/d.php?f=rx/gcc/8.3.0.202002-gnurx/gcc_rx_8.3.0_2020q2.zip -O gcc_rx_8.3.0_2020q2.zip && \
 	wget https://gcc-renesas.com/downloads/d.php?f=rx/newlib/8.3.0.202002-gnurx/newlib_rx_3.1.0_2020q2.zip -O newlib_rx_3.1.0_2020q2.zip && \
@@ -73,3 +72,21 @@ WORKDIR /home/ubuntu/rxgcc/build/gcc
 RUN chmod +x /home/ubuntu/rxgcc/src/gcc/libgcc/mkheader.sh && \
 	make && \
 	sudo make install
+
+
+# main
+FROM tiryoh/ubuntu:bionic-dev
+LABEL maintainer="Tiryoh <tiryoh@gmail.com>"
+
+USER root
+RUN apt-get update && apt-get install -y unzip gcc-8 g++-8 autogen m4 texinfo libmpfr-dev libmpc-dev zlib1g-dev && \
+	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7 && \
+	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 7 && \
+	update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8 && \
+	update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8 && \
+	rm -rf /var/lib/apt/lists/*
+
+USER ubuntu
+WORKDIR /home/ubuntu
+COPY --from=builder /usr/local /usr/local
+
