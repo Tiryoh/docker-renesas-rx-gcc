@@ -12,21 +12,21 @@ RUN mkdir -p /home/ubuntu/Downloads && \
 	mkdir -p /home/ubuntu/rxgcc/src && \
 	mkdir -p /home/ubuntu/rxgcc/build
 WORKDIR /home/ubuntu/Downloads
-RUN wget https://gcc-renesas.com/downloads/d.php?f=rx/gcc/8.3.0.202002-gnurx/gcc_rx_8.3.0_2020q2.zip -O gcc_rx_8.3.0_2020q2.zip && \
-	wget https://gcc-renesas.com/downloads/d.php?f=rx/newlib/8.3.0.202002-gnurx/newlib_rx_3.1.0_2020q2.zip -O newlib_rx_3.1.0_2020q2.zip && \
-	wget https://gcc-renesas.com/downloads/d.php?f=rx/binutils/8.3.0.202002-gnurx/binutils_rx_2.24_2020q2.zip -O binutils_rx_2.24_2020q2.zip && \
-	wget https://gcc-renesas.com/downloads/d.php?f=rx/gdb/8.3.0.202002-gnurx/gdb_rx_7.8.2_2020q2.zip -O gdb_rx_7.8.2_2020q2.zip && \
-	unzip /home/ubuntu/Downloads/gcc_rx_8.3.0_2020q2.zip -d /home/ubuntu/rxgcc/src && \
-	unzip /home/ubuntu/Downloads/newlib_rx_3.1.0_2020q2.zip -d /home/ubuntu/rxgcc/src && \
-	unzip /home/ubuntu/Downloads/binutils_rx_2.24_2020q2.zip -d /home/ubuntu/rxgcc/src && \
-	unzip /home/ubuntu/Downloads/gdb_rx_7.8.2_2020q2.zip -d /home/ubuntu/rxgcc/src && \
+RUN wget -nv https://gcc-renesas.com/downloads/d.php?f=rx/gcc/8.3.0.202002-gnurx/gcc_rx_8.3.0_2020q2.zip -O gcc_rx_8.3.0_2020q2.zip && \
+	wget -nv https://gcc-renesas.com/downloads/d.php?f=rx/newlib/8.3.0.202002-gnurx/newlib_rx_3.1.0_2020q2.zip -O newlib_rx_3.1.0_2020q2.zip && \
+	wget -nv https://gcc-renesas.com/downloads/d.php?f=rx/binutils/8.3.0.202002-gnurx/binutils_rx_2.24_2020q2.zip -O binutils_rx_2.24_2020q2.zip && \
+	wget -nv https://gcc-renesas.com/downloads/d.php?f=rx/gdb/8.3.0.202002-gnurx/gdb_rx_7.8.2_2020q2.zip -O gdb_rx_7.8.2_2020q2.zip && \
+	unzip -qq /home/ubuntu/Downloads/gcc_rx_8.3.0_2020q2.zip -d /home/ubuntu/rxgcc/src && \
+	unzip -qq /home/ubuntu/Downloads/newlib_rx_3.1.0_2020q2.zip -d /home/ubuntu/rxgcc/src && \
+	unzip -qq /home/ubuntu/Downloads/binutils_rx_2.24_2020q2.zip -d /home/ubuntu/rxgcc/src && \
+	unzip -qq /home/ubuntu/Downloads/gdb_rx_7.8.2_2020q2.zip -d /home/ubuntu/rxgcc/src && \
 	rm -rf /home/ubuntu/Downloads/*.zip
 
 # install autoconf 2.64
 WORKDIR /home/ubuntu/Downloads
 RUN wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.64.tar.gz && \
 	cd /home/ubuntu/rxgcc/src && \
-	tar xvf /home/ubuntu/Downloads/autoconf-2.64.tar.gz && \
+	tar vf /home/ubuntu/Downloads/autoconf-2.64.tar.gz && \
 	cd autoconf-2.64 && \
 	./configure --prefix=/usr && \
 	make && \
