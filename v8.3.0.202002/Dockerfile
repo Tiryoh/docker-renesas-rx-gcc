@@ -26,7 +26,7 @@ RUN wget -nv https://gcc-renesas.com/downloads/d.php?f=rx/gcc/8.3.0.202002-gnurx
 WORKDIR /home/ubuntu/Downloads
 RUN wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.64.tar.gz && \
 	cd /home/ubuntu/rxgcc/src && \
-	tar vf /home/ubuntu/Downloads/autoconf-2.64.tar.gz && \
+	tar xf /home/ubuntu/Downloads/autoconf-2.64.tar.gz && \
 	cd autoconf-2.64 && \
 	./configure --prefix=/usr && \
 	make && \
